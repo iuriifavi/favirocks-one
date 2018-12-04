@@ -9,6 +9,8 @@ class ActivePlacer extends Component {
     this.target = React.createRef();
 
     this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseLeave = this.onMouseLeave.bind(this);
+
     this.handleMousePosition = debounce(this.handleMousePosition.bind(this), 150, { maxWait: 30 });
 
     this.state = {
@@ -38,6 +40,11 @@ class ActivePlacer extends Component {
     this.handleMousePosition(event.pageX, event.pageY);
   }
 
+  onMouseLeave() {
+    this.handleMousePosition.flush();
+    this.setState({ projectionPoint: { x: this.state.size.hw, y: this.state.size.hh}});
+  }
+
   handleMousePosition(pX, pY) {
     var x = pX - this.target.current.offsetLeft;
     var y = pY - this.target.current.offsetTop;
@@ -52,7 +59,10 @@ class ActivePlacer extends Component {
   }
 
   render() {
-    return <div onMouseMove={(this.props.handlePointer === true) && this.onMouseMove} style={{ overflow: "hidden" }}>
+    return <div
+    onMouseMove={(this.props.handlePointer === true) ? this.onMouseMove : undefined}
+    onMouseLeave={(this.props.handlePointer === true) ? this.onMouseLeave : undefined}
+    style={{ overflow: "hidden" }}>
         <div ref={this.target} className="tilt-pan-surface" style={this.transform()}>
           {this.props.children}
         </div>
