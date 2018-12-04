@@ -1,0 +1,16 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /
+  static_files: build/static/index.html
+  upload: build/static/
+  http_headers:
+    Access-Control-Allow-Origin: "*"
+  expiration: "0s"
+
+- url: /(.*)
+  static_files: build/static/\1
+  upload: build/static/(.*)
+  expiration: "0s"
