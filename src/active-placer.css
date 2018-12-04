@@ -1,0 +1,4 @@
+.tilt-pan-surface {
+      transform-origin: 50% 50% 0px;
+      transition-duration: 300ms;
+}
